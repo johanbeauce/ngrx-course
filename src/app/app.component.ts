@@ -3,6 +3,7 @@ import {select, Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {map} from 'rxjs/operators';
 import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
+import {isLoggedIn, isLoggedOut} from './auth/auth.selector';
 import {AppState} from './reducers';
 
 @Component({
@@ -26,11 +27,11 @@ export class AppComponent implements OnInit {
 
       this.isUserLogin$ = this.store
         .pipe(
-          map(store => !!store['auth'].user)
+          select(isLoggedIn)
         );
       this.isUserLogout$ = this.store
         .pipe(
-          map(store => !store['auth'].user)
+          select(isLoggedOut)
         );
 
       this.router.events.subscribe(event  => {
